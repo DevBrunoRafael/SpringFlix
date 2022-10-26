@@ -1,26 +1,40 @@
-import React from 'react';
-import { BiCameraMovie, BiSearchAlt } from 'react-icons/bi';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BiCameraMovie, BiSearchAlt2 } from "react-icons/bi";
+
+import "./Navbar.css";
 
 const Navbar = () => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!search) return;
+
+    navigate(`/search?q=${search}`, { replace: true });
+    setSearch("");
+  };
+
   return (
-    <nav>
-
-      {/* convert for link */}
-      <a href="/">
-        <BiCameraMovie size={40} />
-        Movies
-      </a>
-
-      <form action="">
-
-        <input type="text" name="search" id="search" />
-        
+    <nav id="navbar">
+      <h2>
+        <Link to="/">
+          <BiCameraMovie /> MoviesLib
+        </Link>
+      </h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Busque um filme"
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+        />
         <button type="submit">
-          <BiSearchAlt />
+          <BiSearchAlt2 />
         </button>
-
       </form>
-
     </nav>
   );
 };
